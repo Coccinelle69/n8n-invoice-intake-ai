@@ -1,0 +1,296 @@
+{
+  "name": "Übung 2 – Belegeingang mit KI",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Rechnung hochladen",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Rechnung",
+              "fieldType": "file",
+              "acceptFileTypes": ".pdf",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        -656,
+        -128
+      ],
+      "id": "3d465349-63a0-471a-9ea6-592936c40841",
+      "name": "On form submission",
+      "webhookId": "3a1055b6-bf1e-4718-8e9f-db80095781f2"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "Rechnung",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.2,
+      "position": [
+        -432,
+        -128
+      ],
+      "id": "02f25904-f6ea-4f39-bf8c-ab461172c6ed",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.text }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "lieferant",
+              "description": "Name des Lieferanten. Leer lassen, wenn nicht vorhanden"
+            },
+            {
+              "name": "rechnungsnummer",
+              "description": "Rechnungsnummer. Leer lassen, wenn nicht vorhanden"
+            },
+            {
+              "name": "datum",
+              "description": "Rechnungsdatum im Format JJJJ-MM-TT"
+            },
+            {
+              "name": "netto",
+              "type": "number",
+              "description": "Nettobetrag in Euro. Deutsches Format beachten: Komma ist das Dezimaltrennzeichen"
+            },
+            {
+              "name": "mwst",
+              "type": "number",
+              "description": "Mehrwertsteuerbetrag in Euro"
+            },
+            {
+              "name": "brutto",
+              "type": "number",
+              "description": "Gesamtbetrag in Euro",
+              "required": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        -208,
+        -128
+      ],
+      "id": "0c4a031c-ce64-4023-8f27-e71196da9354",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        -208,
+        96
+      ],
+      "id": "19b0032a-42d9-453a-8749-54a64ea903f9",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jOl0CGRICrvHEWjx",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0725ebf6-f174-4a1e-b9cd-c7a20644faa2",
+              "name": "status",
+              "value": "Prüfung nötig",
+              "type": "string"
+            },
+            {
+              "id": "db1f6d0e-062c-462c-ae45-d44b65c7dcce",
+              "name": "grund",
+              "value": "={{ [$json.output.brutto > 1000 ? 'Betrag über 1.000 €' : null, !$json.output.lieferant ? 'Lieferant fehlt' : null, (!$json.output.rechnungsnummer && $json.output.brutto > 250 ? 'Rechnungsnummer fehlt' : null) ].filter(Boolean).join(', ') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        336,
+        -224
+      ],
+      "id": "ed804ea9-ab38-42ba-a867-dc86049afd5c",
+      "name": "Status: Prüfung"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c750b4c2-48b0-4341-b6fb-8267b1bf0e91",
+              "name": "status",
+              "value": "OK",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        336,
+        -32
+      ],
+      "id": "1d09028d-183d-43d8-ba6c-3b1de5b75fbf",
+      "name": "Status: OK"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "a5e61585-e3a0-4297-8743-d21c34be1956",
+              "leftValue": "={{ $json.output.brutto }}",
+              "rightValue": 1000,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "683b97ed-1ddb-4e73-93e3-0da99cb86bc8",
+              "leftValue": "={{ $json.output.lieferant }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "8fd68c6c-9117-452f-941a-65b8da2a9380",
+              "leftValue": "={{ !$json.output.rechnungsnummer && $json.output.brutto > 250 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": "={{ false }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.4,
+      "position": [
+        112,
+        -128
+      ],
+      "id": "90f82470-eeb5-4901-a8c1-67105827e617",
+      "name": "Manuelle Prüfung nötig"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Manuelle Prüfung nötig",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manuelle Prüfung nötig": {
+      "main": [
+        [
+          {
+            "node": "Status: Prüfung",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Status: OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "8785a73f-144b-45de-afd7-a1b8548f7482",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ddae8ea4da82b208f13ffd2613011eaa0a19af8d6e24afb6dbdf7a114ff4f777"
+  },
+  "nodeGroups": [],
+  "id": "ftWlNFNze2kGAppV",
+  "tags": []
+}
