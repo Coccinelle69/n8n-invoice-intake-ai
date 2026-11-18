@@ -4,7 +4,7 @@
 
 Automatisierter Belegeingang für Steuerkanzleien und Unternehmen: Eine PDF-Rechnung wird hochgeladen, eine KI liest die wichtigsten Daten aus, und Prüfregeln aus der Buchhaltungspraxis entscheiden, ob ein Mensch den Beleg zusätzlich prüfen muss – mit Begründung.
 
-![Workflow](workflow.png)
+![Workflow](workflow.PNG)
 
 ## Ziel
 
