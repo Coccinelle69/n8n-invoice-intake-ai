@@ -4,7 +4,7 @@
 
 Automated document intake for accounting and tax firms: a PDF invoice is uploaded, an AI model extracts the key data, and validation rules taken from real bookkeeping practice decide whether a human needs to review the document – with a stated reason.
 
-![Workflow](workflow.png)
+![Workflow](workflow.PNG)
 
 ## Goal
 
