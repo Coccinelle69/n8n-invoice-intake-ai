@@ -38,7 +38,7 @@ Die Begründung wird automatisch im Feld `grund` gespeichert, z. B. *„Lieferan
 | Beleg | Erwartet | Ergebnis |
 |---|---|---|
 | Reinigung, 240 €, vollständig | OK | ✅ |
-| Elektriker, 1.441,91 € | Prüfung – Betrag über 1.000 € | ✅ |
+| Elektriker, 1.441,91 € | Prüfung – Betrag über 1.000 €; Steuernummer/Leistungsdatum fehlt | ✅ |
 | Reparatur, 89 €, ohne Lieferant und Nummer | Prüfung – Lieferant fehlt | ✅ |
 | Schlüsseldienst-Quittung, 180 €, ohne Nummer | OK (Kleinbetragsrechnung) | ✅ |
 
