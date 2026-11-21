@@ -29,6 +29,7 @@ A document goes to manual review if at least one rule applies:
 | Gross amount above €1,000 | Approval threshold (four-eyes principle), configurable per client |
 | Supplier missing | The supplier's name is mandatory on every invoice |
 | Invoice number missing **and** amount above €250 | Under German VAT rules, small-value invoices up to €250 gross (*Kleinbetragsrechnung*) do not require an invoice number |
+| Tax number / VAT ID or date of supply missing (above €250) | Mandatory invoice details under § 14 UStG; small-amount invoices up to €250 are exempt (§ 33 UStDV) |
 
 The reason is written automatically to the `grund` field, e.g. *"Lieferant fehlt"* (supplier missing).
 
