@@ -29,6 +29,7 @@ Ein Beleg geht in die manuelle Prüfung, wenn mindestens eine Regel greift:
 | Bruttobetrag über 1.000 € | Freigabegrenze (Vier-Augen-Prinzip), pro Mandant anpassbar |
 | Lieferant fehlt | Name des Leistenden ist auf jeder Rechnung Pflicht |
 | Rechnungsnummer fehlt **und** Betrag über 250 € | Bei Kleinbetragsrechnungen bis 250 € brutto ist keine Rechnungsnummer erforderlich |
+| Steuernummer/USt-IdNr. oder Leistungsdatum fehlt (über 250 €) | Pflichtangaben nach § 14 UStG; Kleinbetragsrechnungen bis 250 € sind ausgenommen (§ 33 UStDV) |
 
 Die Begründung wird automatisch im Feld `grund` gespeichert, z. B. *„Lieferant fehlt“*.
 
