@@ -1,5 +1,5 @@
 {
-  "name": "Übung 2 – Belegeingang mit KI",
+  "name": "Belegeingang mit KI",
   "nodes": [
     {
       "parameters": {
@@ -19,12 +19,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.6,
       "position": [
-        -656,
-        -128
+        0,
+        96
       ],
-      "id": "3d465349-63a0-471a-9ea6-592936c40841",
+      "id": "f03f2931-d5aa-493c-b4ba-d4650fbf26df",
       "name": "On form submission",
-      "webhookId": "3a1055b6-bf1e-4718-8e9f-db80095781f2"
+      "webhookId": "0276da46-f747-4c82-9bb2-394e68af7055"
     },
     {
       "parameters": {
@@ -35,10 +35,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.2,
       "position": [
-        -432,
-        -128
+        224,
+        96
       ],
-      "id": "02f25904-f6ea-4f39-bf8c-ab461172c6ed",
+      "id": "2b529db9-2315-4094-90c0-65b5e621ab05",
       "name": "Extract from File"
     },
     {
@@ -73,6 +73,14 @@
               "type": "number",
               "description": "Gesamtbetrag in Euro",
               "required": true
+            },
+            {
+              "name": "steuernummer",
+              "description": "Steuernummer oder USt-IdNr. des Lieferanten (z. B. 12/345/67890 oder DE123456789). Leer lassen, wenn sie nicht auf der Rechnung steht."
+            },
+            {
+              "name": "leistungsdatum",
+              "description": "Datum oder Zeitraum der Lieferung bzw. Leistung. Auch „Leistungsdatum entspricht Rechnungsdatum“ zählt, dann das Rechnungsdatum übernehmen. Leer lassen, wenn nichts dazu angegeben ist."
             }
           ]
         },
@@ -81,27 +89,28 @@
       "type": "@n8n/n8n-nodes-langchain.informationExtractor",
       "typeVersion": 1.2,
       "position": [
-        -208,
-        -128
+        448,
+        96
       ],
-      "id": "0c4a031c-ce64-4023-8f27-e71196da9354",
+      "id": "5ed0db4b-066c-48fa-9cc7-ab0e2607f72d",
       "name": "Information Extractor"
     },
     {
       "parameters": {
+        "modelName": "models/gemini-3.5-flash",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.2,
       "position": [
-        -208,
-        96
+        448,
+        320
       ],
-      "id": "19b0032a-42d9-453a-8749-54a64ea903f9",
+      "id": "fa4ad93e-c889-4605-b86e-9c8f17fe2d01",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "jOl0CGRICrvHEWjx",
+          "id": "CRIGAAR8am5cD0Tq",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -130,10 +139,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.5,
       "position": [
-        336,
-        -224
+        992,
+        0
       ],
-      "id": "ed804ea9-ab38-42ba-a867-dc86049afd5c",
+      "id": "d7cac495-9871-4e76-a3b8-2b1808eba30d",
       "name": "Status: Prüfung"
     },
     {
@@ -154,10 +163,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.5,
       "position": [
-        336,
-        -32
+        992,
+        192
       ],
-      "id": "1d09028d-183d-43d8-ba6c-3b1de5b75fbf",
+      "id": "e4772a3c-e6ce-4b5d-9ba8-8150195014f9",
       "name": "Status: OK"
     },
     {
@@ -208,10 +217,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.4,
       "position": [
-        112,
-        -128
+        768,
+        96
       ],
-      "id": "90f82470-eeb5-4901-a8c1-67105827e617",
+      "id": "1a810a80-7f7b-41bc-8e09-3641746ab8c7",
       "name": "Manuelle Prüfung nötig"
     }
   ],
@@ -285,12 +294,12 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "8785a73f-144b-45de-afd7-a1b8548f7482",
+  "versionId": "454b8666-4926-4c44-941a-316366d89c7f",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "ddae8ea4da82b208f13ffd2613011eaa0a19af8d6e24afb6dbdf7a114ff4f777"
+    "instanceId": "d93ba0733b8dc2258a6f95a36a3ead77174abd1542d92fdb4bd1db8ae4cf7468"
   },
   "nodeGroups": [],
-  "id": "ftWlNFNze2kGAppV",
+  "id": "cKWr3P86eYKaNcqe",
   "tags": []
 }
