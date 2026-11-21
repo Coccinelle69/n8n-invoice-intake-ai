@@ -38,7 +38,7 @@ The reason is written automatically to the `grund` field, e.g. *"Lieferant fehlt
 | Document | Expected | Result |
 |---|---|---|
 | Cleaning service, €240, complete | OK | ✅ |
-| Electrician, €1,441.91 | Review – amount above €1,000 | ✅ |
+| Electrician, €1,441.91 | Review – amount above €1,000; tax number / date of supply missing | ✅ |
 | Repair, €89, no supplier or number | Review – supplier missing | ✅ |
 | Locksmith receipt, €180, no number | OK (small-value invoice) | ✅ |
 
